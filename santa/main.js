@@ -39,22 +39,26 @@ document.getElementById('product').addEventListener('submit',function(e){
    const form = e.currentTarget;
    addProductForm(form, factory)
 });
+document.getElementById('area').addEventListener('submit', function(e){
+   e.preventDefault();
+   const form = e.currentTarget;
+   addArea(form, factory);
+});
 
 /**
 * table render
 */
-function initTable(){
-
-   // TODO 6
-    for(let i = 0; i < companionList.length; i ++)
-    {
-        const mano = companionList(i)
-        const companion = new Companion(i, mano.firstName, mano.lastName, mano.area)
-        for (const y of mano.products) 
-        {
-            companion.AddProduct(y)
-        }
-    }
+function initTable(){// TODO 6
+   for(let i = 0; i<companionList.length; i++){ // végig iterál az arryan
+       const mano = companionList[i]; // a listábol az i edik elemét kiszedjük
+       const actualmano = new Companion(i, mano.firstName, mano.lastName, mano.area); // companion objektum létrehozása  és a konstructorra példányositunk
+       for(let product of mano.products){ // A mano objektum product tömbjén megy végig
+           actualmano.addproduct(product); // hozzáadja az elemet
+       }
+       factory.addMano(actualmano);
+   }
+   
+   
 }
 
 
@@ -69,5 +73,6 @@ initTable()
 function checkEventListener(e){
    const row = e.currentTarget.parentElement.parentElement;
    const companionId = row.id;
+   factory.showProductList(companionId);
    // TODO 10
 }

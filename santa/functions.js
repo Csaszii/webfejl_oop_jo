@@ -8,8 +8,12 @@ function createRow(companion){
     const tbody = table.querySelector('tbody');
     const tableRow = document.createElement('tr');
     tbody.appendChild(tableRow);
-
-   // TODO 7
+    tableRow.id = companion.id;
+    const nametd= createCell(tableRow);
+    nametd.innerHTML = companion.getName();
+    
+    const reszlegtd = createCell(tableRow);
+    reszlegtd.innerHTML = companion.reszleg;
 
     const action = createCell(tableRow)
     const button = document.createElement('button');
@@ -35,12 +39,12 @@ function createCell(parentElement){
  * Append a new companion to the selector
  * 
  */
-function appendToSelector(){
+function appendToSelector(mano){ // TODO 11.
     const productForm = document.getElementById('product')
     const selector = productForm.querySelector('#companionlist');
 
     const option = document.createElement('option');
-    // TODO 11.
+    option.text = mano.getName();
 
     selector.appendChild(option);
 }
@@ -52,15 +56,24 @@ function appendToSelector(){
  * 
  * @param {Companion} companion 
  */
-function refreshProductList(companion){ //TODO
+function refreshProductList(companion){ //TODO // TODO 10
 
     const companionName = document.getElementById('companion_name');
-    // TODO 10
+    companionName.innerHTML = companion.getName();
     companionName.style.display = 'block';
     const productTable = document.getElementById('products');
     productTable.style.display = 'table';
     const productTableBody = productTable.querySelector('tbody')
-    productTableBody.innerHTML = '';
+    productTableBody.innerHTML = "";
+    for(let i = 0; i< companion.products.length; i++){
+        
+        const product = companion.products[i];
+        const row = document.createElement('tr'); 
+        const cell = document.createElement('td'); 
+        cell.innerHTML = product;
+        row.appendChild(cell); 
+        productTableBody.appendChild(row);
+    }
     // TODO 10
 }
 
@@ -70,14 +83,17 @@ function refreshProductList(companion){ //TODO
  * 
  * @param {HTMLFormElement} form 
  */
-function addCompanion(form){ //TODO 
+function addCompanion(form, factory){ //TODO // TODO 6
     const firstName =form.querySelector('#cfirstname')
     const lastname =form.querySelector('#clastname')
     const area = form.querySelector('#carea')
+    const id = factory.createId(); // dinamikusan adjuk a az id-t a lenght alapján
     const firstNameValue = firstName.value;
     const lastNameValue = lastname.value;
     const areaValue = area.value;
-    // TODO 6
+    const mano = new Companion(id, lastNameValue, firstNameValue, areaValue); //letrehozunk egy uj manot
+    factory.addMano(mano); // hozzáadjuk a manot a factoyhoz
+    
 }
 
 /**
@@ -92,5 +108,20 @@ function addProductForm(form, factory){ // TODO
     const productName = form.querySelector('#productname')
     const companionId = selector.value;
     const product = productName.value;
-    // 12
+    factory.addmanoproduct(product, companionId);
+}
+
+function addArea(form, factory){
+    const areaname = form.querySelector('#reszlegnema')
+    const area = areaname.value;
+    factory.addnewarea(area);
+}
+
+function appendToAreaSelector(area){ // TODO 11.
+    const areaForm = document.getElementById('area')
+    const selector = areaForm.querySelector('#reszleglista');
+
+    const option = document.createElement('option');
+    option.text = area;
+    selector.appendChild(option);
 }
