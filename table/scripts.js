@@ -63,6 +63,16 @@ class FormController { // Define a class to handle form-related functionality
         const v = this.#getInputById('lastname')
         return v.value
     }
+
+    get firstname1(){
+        const v = this.#getInputById('firstname1')
+        return v.value
+    }
+
+    get firstname2(){
+        const v = this.#getInputById('firstname2')
+        return v.value
+    }
     
     constructor(form) { // Constructor to initialize the FormController
         this.#form = form // Assign the passed form element to the private property
@@ -70,7 +80,7 @@ class FormController { // Define a class to handle form-related functionality
     
     
     #getInputById(id){
-        return this.#form.querySelector('#' + 'id')
+        return this.#form.querySelector('#' + id)
     }
 }
 
@@ -79,6 +89,16 @@ function init(){
     const form = document.getElementById('form')
     
     const controller = new FormController(form)
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        const obj = {
+            lastname: controller.lastname,
+            firstname1: controller.firstname1,
+            firstname2 : controller.firstname2
+        }
+        const pers = new Person(obj)
+        pers.render(tbody)
+    })
 
     for(const elem of array){
         const person = new Person(elem)
