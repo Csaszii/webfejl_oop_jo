@@ -107,3 +107,27 @@ class Datatable{
 const datamanager = new DataManager([{nev: "Fity Matyi", eletkor: 69}]);
 const table = new Datatable(datamanager);
 
+const inputfield = document.createElement("input");
+document.body.appendChild(inputfield);
+inputfield.addEventListener('change', (e) => {
+
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = (e) => {
+        const fileContent = reader.result;
+        console.log(fileContent);
+
+        const split = fileContent.split('\n');
+
+        for (const line of split){
+            const data = line.split(";");
+
+            const person = {
+                nev: data[0],
+                eletkor: Number(data[1])
+            };
+            datamanager.add(person);
+        }
+    }
+});

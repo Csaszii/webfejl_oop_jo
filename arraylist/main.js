@@ -48,4 +48,4 @@ console.log(igen[0]);
 a.Add("wdqjöqwdiöwdqjiö");
 a.Add({new: "odwdqwddqw"})
 
-console.log(a); 
+console.log(a);
