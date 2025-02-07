@@ -72,6 +72,16 @@ class DataManager{
         this.#updatecallback(result);
     }
 
+    filter(filterCallback) {
+        const result = [];
+        for(const elem of this.#array){
+            if(filterCallback(elem)){
+                result.push(elem);
+            }
+        }
+        this.#updatecallback(result);
+    }
+
 } 
 
 class Datatable{
